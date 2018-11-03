@@ -21,11 +21,11 @@ io.on('connection', (socket) => {
   console.log('New user connected');
 
   //Emit new message event to a client side
-  socket.emit('newMessage', {
-    from: 'John',
-    text: 'See you then',
-    createdAt: 123123
-  });
+  // socket.emit('newMessage', {
+  //   from: 'John',
+  //   text: 'See you then',
+  //   createdAt: 123123
+  // });
 
   //Receive create message event from client side
   socket.on('createMessage', (message) => {
