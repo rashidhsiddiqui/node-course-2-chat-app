@@ -20,7 +20,7 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connected');
 
-  //Emit new message event to client side
+  //Emit new message event to a client side
   socket.emit('newMessage', {
     from: 'John',
     text: 'See you then',
@@ -30,6 +30,14 @@ io.on('connection', (socket) => {
   //Receive create message event from client side
   socket.on('createMessage', (message) => {
     console.log('createMessage', message);
+
+    //io.emit will emit messages to all single users
+    io.emit('newMessage', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
+
   });
 
   socket.on('disconnect', () => {

@@ -4,10 +4,10 @@ socket.on('connect', function () {
   console.log('Connected to server');
 
   //Emit create message event to server side
-  socket.emit('createMessage', {
-    from: 'Andrew',
-    text: 'Yup, that works for me.'
-  });
+  // socket.emit('createMessage', {
+  //   from: 'Andrew',
+  //   text: 'Yup, that works for me.'
+  // });
 });
 
 socket.on('disconnect', function () {
