@@ -3,6 +3,8 @@ const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
 
+var {generateMessage} = require("./utils/message.js");
+
 var app = express();
 const port = process.env.PORT || 3000;
 
@@ -28,29 +30,17 @@ io.on('connection', (socket) => {
   // });
 
   //Will show welome message to specific client
-  socket.emit('newMessage', {
-    from: 'Admin',
-    text: 'Welcome to the chat app',
-    createdAt: new Date().getTime()
-  });
+  socket.emit('newMessage', generateMessage("Admin", "Welcome to the chat app"));
 
   //Like io.emit, will emit messages to all single users but except the sender(this socket user)
-  socket.broadcast.emit('newMessage', {
-    from: 'Admin',
-    text: 'New user joined',
-    createdAt: new Date().getTime()
-  });
+  socket.broadcast.emit('newMessage', generateMessage("Admin", "New user joined"));
 
   //Receive create message event from client side
   socket.on('createMessage', (message) => {
     console.log('createMessage', message);
 
     //io.emit will emit messages to all single users
-    io.emit('newMessage', {
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    });
+    io.emit('newMessage', generateMessage(message.from, message.text));
 
   });
 
