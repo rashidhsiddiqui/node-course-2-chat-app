@@ -36,12 +36,12 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', generateMessage("Admin", "New user joined"));
 
   //Receive create message event from client side
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
 
     //io.emit will emit messages to all single users
     io.emit('newMessage', generateMessage(message.from, message.text));
-
+    callback("This is from the server."); //The object pass from callback will receive on callback of calling function
   });
 
   socket.on('disconnect', () => {
