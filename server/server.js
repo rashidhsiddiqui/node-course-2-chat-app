@@ -3,7 +3,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
 
-var {generateMessage} = require("./utils/message.js");
+var {generateMessage, generateLocationMessage} = require("./utils/message.js");
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -41,6 +41,15 @@ io.on('connection', (socket) => {
 
     //io.emit will emit messages to all single users
     io.emit('newMessage', generateMessage(message.from, message.text));
+    callback("This is from the server."); //The object pass from callback will receive on callback of calling function
+  });
+
+  //Receive createLocationMessage event from client side
+  socket.on('createLocationMessage', (coords, callback) => {
+    //console.log('createMessage', message);
+
+    //io.emit will emit messages to all single users
+    io.emit('newLocationMessage', generateLocationMessage("Admin", coords.latitude, coords.longitude));
     callback("This is from the server."); //The object pass from callback will receive on callback of calling function
   });
 
